@@ -893,14 +893,14 @@ impl EthereumAdapterTrait for EthereumAdapter {
             .boxed();
 
         let web3 = self.web3.clone();
-        let gen_block_hash_future = retry("eth_getBlockByNumber(0, false) RPC call", &logger)
+        let gen_block_hash_future = retry("eth_getBlockByNumber(449600, false) RPC call", &logger)
             .no_limit()
             .timeout_secs(30)
             .run(move || {
                 let web3 = web3.cheap_clone();
                 async move {
                     web3.eth()
-                        .block(BlockId::Number(Web3BlockNumber::Number(0.into())))
+                        .block(BlockId::Number(Web3BlockNumber::Number(449600.into())))
                         .await?
                         .map(|gen_block| gen_block.hash.map(BlockHash::from))
                         .flatten()
